@@ -41,15 +41,18 @@ LABEL maintainer="tim@oracle-base.com"
 
 # ------------------------------------------------------------------------------
 # Define fixed (build time) environment variables.
+ARG DB_SOFTWARE
+ARG APEX_SOFTWARE
+ARG ORACLE_PASSWORD
+ARG SELECTED_LANGUAGES
+
 ENV ORACLE_BASE=/u01/app/oracle                                                \
     ORACLE_HOME=/u01/app/oracle/product/19.0.0/dbhome_1                        \
     ORA_INVENTORY=/u01/app/oraInventory                                        \
     SOFTWARE_DIR=/u01/software                                                 \
-    DB_SOFTWARE="LINUX.X64_193000_db_home.zip"                                 \
-    APEX_SOFTWARE="apex_20.2_en.zip"                                           \
-    ORACLE_PASSWORD="oracle"                                                   \
     SCRIPTS_DIR=/u01/scripts                                                   \
     ORAENV_ASK=NO
+
 
 # Separate ENV call to allow existing variables to be referenced.
 ENV PATH=${ORACLE_HOME}/bin:${PATH}
@@ -109,7 +112,7 @@ RUN ${ORACLE_HOME}/runInstaller -ignorePrereq                                  \
     ORACLE_HOSTNAME=${HOSTNAME}                                                \
     UNIX_GROUP_NAME=oinstall                                                   \
     INVENTORY_LOCATION=${ORA_INVENTORY}                                        \
-    SELECTED_LANGUAGES=en,en_GB                                                \
+    SELECTED_LANGUAGES=${SELECTED_LANGUAGES                                    \
     ORACLE_HOME=${ORACLE_HOME}                                                 \
     ORACLE_BASE=${ORACLE_BASE}                                                 \
     oracle.install.db.InstallEdition=EE                                        \
